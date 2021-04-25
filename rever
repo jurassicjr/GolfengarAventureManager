@@ -1,0 +1,4 @@
+yarn run v1.22.5
+$ ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration
+[INFO] 15:28:26 ts-node-dev ver. 1.0.0 (using ts-node ver. 9.0.0, typescript ver. 4.1.2)
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
