@@ -1,37 +1,33 @@
-import GetAdventureCompleteInformationService from "@modules/adventure/services/GetAdventureCompleteInformationService";
+import SubscribeToAdventureService from "@modules/adventure/services/SubscribeToAdventureService";
 import AppError from "@shared/errors/AppError";
 import { format } from "date-fns";
 import { Message } from "discord.js";
 import { container } from "tsyringe";
 
-const showAdventure = {
-  name: "showAdventure",
-  description: "Show all the informations about an specific adventure",
-  commandString: "!mostrar_aventura",
+const subscribeToAdventure = {
+  name: "subscribe to adventure",
+  description: "this method allow a user to subscrib in an adventure",
+  commandString: "!inscrever",
   execute: async (msg: Message, args: string[]): Promise<void> => {
-    if (args.length > 1) {
+    if (args.length !== 3) {
       msg.channel.send(
-        "Apenas o rank da missão pode ser inserido como parametro",
+        "Por favor insira todos os atributos nas seguinte ordem: nome ou ID da aventura, nome_do_personagem, link do log",
       );
     }
     const adventureIdentification = args[0];
+    const characterName = args[1];
+    const logLink = args[2].replace(/"+/, "");
 
-    const getAdventureInformation = container.resolve(
-      GetAdventureCompleteInformationService,
-    );
+    const subscribe = container.resolve(SubscribeToAdventureService);
     try {
-      const adventure = await getAdventureInformation.execute(
+      const adventure = await subscribe.execute({
         adventureIdentification,
-      );
+        characterName,
+        logLink,
+      });
 
-      if (!adventure) {
-        msg.channel.send(
-          "Desculpa mas não foi possível encontrar um aventura com o ID ou Nome informado",
-        );
-        return;
-      }
       const header =
-        "------------------------------------------------ MISSÂO ------------------------------------------------";
+        "------------------------------------------------ INSCRIÇÂO REALIZADA ------------------------------------------------";
       const adventureName = `Nome da aventura: ${adventure.name} / ${adventure.id}`;
       const adventureStartDate = `Data da sessão: ${format(
         adventure.sessionStartDate,
@@ -46,7 +42,7 @@ const showAdventure = {
       const numberOfVacancies = `Nº de vagas: ${adventure.numberOfVacancies}`;
       const participants = `Participantes: ${
         adventure.participants
-          ? adventure.participants.map(participant => `<@${participant}>, `)
+          ? adventure.participants.map(participant => `<@${participant}> `)
           : ""
       }`;
       const rank = `Rank: <@&${adventure.rank}>`;
@@ -63,6 +59,8 @@ const showAdventure = {
       msg.channel.send(
         `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${report}\n${goldReward}\n${XPReward}\n${footer}`,
       );
+
+      msg.delete();
     } catch (error) {
       if (error instanceof AppError) {
         msg.channel.send(error.message);
@@ -71,4 +69,4 @@ const showAdventure = {
   },
 };
 
-export default showAdventure;
+export default subscribeToAdventure;
