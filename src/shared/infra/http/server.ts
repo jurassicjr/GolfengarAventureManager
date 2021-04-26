@@ -24,7 +24,6 @@ client.on("ready", () => {
 client.on("message", msg => {
   const args = msg.content.split(/ +(?=(?:[^"]*"[^"]*")*[^"]*$)/);
   const command = args.shift()?.toLowerCase();
-  console.info(`Called command: ${command}`);
 
   if (!client.commands.has(command)) return;
 

@@ -4,4 +4,5 @@ export default interface ICreateAdventureDTO {
   description: string;
   rank: string;
   sessionStartDate: Date;
+  numberOfVacancies: number;
 }

@@ -1,3 +1,4 @@
+import AppError from "@shared/errors/AppError";
 import { parseISO } from "date-fns";
 import { Role, User } from "discord.js";
 import { inject, injectable } from "tsyringe";
@@ -10,6 +11,7 @@ interface IRequest {
   description: string;
   rank: Role | undefined;
   sessionStartDate: string;
+  numberOfVacancies: number;
 }
 
 @injectable()
@@ -25,8 +27,20 @@ export default class CreateNewAdventureService {
     description,
     rank,
     sessionStartDate,
-  }: IRequest): Promise<Adventure | undefined> {
-    if (!rank || !dungeonMaster) return undefined;
+    numberOfVacancies,
+  }: IRequest): Promise<Adventure> {
+    if (!rank || !dungeonMaster)
+      throw new AppError("Rank ou Mestre não informado");
+
+    const hasAdventureWithSameName = await this.adventuresRepository.findByName(
+      adventureName,
+    );
+
+    if (hasAdventureWithSameName) {
+      throw new AppError(
+        "Uma missão com esse nome já foi registrada anteriormente",
+      );
+    }
 
     const adventure = await this.adventuresRepository.create({
       adventureName,
@@ -34,6 +48,7 @@ export default class CreateNewAdventureService {
       dungeonMaster: dungeonMaster.id,
       rank: rank.id,
       sessionStartDate: parseISO(sessionStartDate.replace(/"+/g, "").trim()),
+      numberOfVacancies,
     });
 
     return adventure;

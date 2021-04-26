@@ -65,9 +65,18 @@ export default class CreateAdventureTable1619373975916
             isNullable: true,
           },
           {
+            name: "number_of_vacancies",
+            type: "int",
+          },
+          {
             name: "create_date",
             type: "timestamp",
             default: "now()",
+          },
+          {
+            name: "players_log",
+            type: "varchar",
+            isNullable: true,
           },
           {
             name: "update_date",

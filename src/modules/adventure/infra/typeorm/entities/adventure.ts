@@ -35,6 +35,12 @@ export default class Adventure {
   @Column()
   description: string;
 
+  @Column({ name: "number_of_vacancies" })
+  numberOfVacancies: number;
+
+  @Column({ name: "players_log", type: "simple-array" })
+  playersLog: string[];
+
   @Column({ name: "xp_reward" })
   XPReward: number;
 
