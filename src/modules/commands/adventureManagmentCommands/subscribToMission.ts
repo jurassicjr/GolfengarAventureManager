@@ -9,14 +9,14 @@ const subscribeToAdventure = {
   description: "this method allow a user to subscrib in an adventure",
   commandString: "!inscrever",
   execute: async (msg: Message, args: string[]): Promise<void> => {
-    if (args.length !== 3) {
+    if (args.length !== 2) {
       msg.channel.send(
-        "Por favor insira todos os atributos nas seguinte ordem: nome ou ID da aventura, nome_do_personagem, link do log",
+        "Por favor insira todos os atributos nas seguinte ordem: nome ou ID da aventura, link do log",
       );
     }
     const adventureIdentification = args[0];
-    const characterName = args[1];
-    const logLink = args[2].replace(/"+/, "");
+    const characterName = msg.author.id;
+    const logLink = args[1].replace(/"+/, "");
 
     const subscribe = container.resolve(SubscribeToAdventureService);
     try {
@@ -40,24 +40,17 @@ const subscribeToAdventure = {
       }`;
       const description = `Descrição: ${adventure.description}`;
       const numberOfVacancies = `Nº de vagas: ${adventure.numberOfVacancies}`;
-      const participants = `Participantes: ${
-        adventure.participants
-          ? adventure.participants.map(participant => `<@${participant}> `)
+      const participants = `Candidatos: ${
+        adventure.candidates
+          ? adventure.candidates.map(candidate => `<@${candidate}> `)
           : ""
       }`;
       const rank = `Rank: <@&${adventure.rank}>`;
-      const report = `Relatório: ${adventure.report ? adventure.report : ""}`;
-      const goldReward = `Recompensa em ouro: ${
-        adventure.goldReward ? adventure.goldReward : ""
-      }`;
-      const XPReward = `Número de aventuras: ${
-        adventure.XPReward ? adventure.XPReward : ""
-      }`;
 
       const footer =
         "-----------------------------------------------------------------------------------------------------------------------------";
       msg.channel.send(
-        `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${report}\n${goldReward}\n${XPReward}\n${footer}`,
+        `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${footer}`,
       );
 
       msg.delete();

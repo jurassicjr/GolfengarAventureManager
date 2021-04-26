@@ -57,8 +57,8 @@ export default class SubscribeToAdventureService {
     if (adventure.playersLog) adventure.playersLog.push(logLink);
     else adventure.playersLog = [logLink];
 
-    if (adventure.participants) adventure.participants.push(characterName);
-    else adventure.participants = [logLink];
+    if (adventure.candidates) adventure.candidates.push(characterName);
+    else adventure.candidates = [logLink];
 
     await this.adventuresRepository.save(adventure);
 
