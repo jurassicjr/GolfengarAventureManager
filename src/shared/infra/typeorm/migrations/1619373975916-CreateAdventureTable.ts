@@ -5,7 +5,7 @@ export default class CreateAdventureTable1619373975916
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "aventures",
+        name: "adventures",
         columns: [
           {
             name: "id",
@@ -29,10 +29,12 @@ export default class CreateAdventureTable1619373975916
           {
             name: "participants",
             type: "varchar",
+            isNullable: true,
           },
           {
             name: "session_end_date",
             type: "timestamp",
+            isNullable: true,
           },
           {
             name: "description",
@@ -41,10 +43,26 @@ export default class CreateAdventureTable1619373975916
           {
             name: "xp_reward",
             type: "varchar",
+            isNullable: true,
           },
           {
             name: "gold_reward",
             type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "rank",
+            type: "varchar",
+          },
+          {
+            name: "candidates",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "report",
+            type: "varchar",
+            isNullable: true,
           },
           {
             name: "create_date",

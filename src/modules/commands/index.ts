@@ -5,10 +5,11 @@ const commands: {
   [key: string]: {
     name: string;
     description: string;
+    commandString: string;
     execute: (msg: Message, args: string[]) => void;
   };
 } = {};
 
-commands[createAdventure.name] = createAdventure;
+commands[createAdventure.commandString] = createAdventure;
 
 export default commands;
