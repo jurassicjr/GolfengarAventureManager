@@ -47,6 +47,9 @@ export default class Adventure {
   @Column({ name: "gold_reward" })
   goldReward: string;
 
+  @Column({ length: 2054 })
+  report: string;
+
   @CreateDateColumn({ name: "create_date" })
   createDate: Date;
 

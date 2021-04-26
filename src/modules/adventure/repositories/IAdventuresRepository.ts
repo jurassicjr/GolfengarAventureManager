@@ -7,4 +7,5 @@ export default interface IAdventureRepository {
   findByName(adventureName: string): Promise<Adventure | undefined>;
   findAll(): Promise<Adventure[]>;
   findByRank(rank: string): Promise<Adventure[]>;
+  findByID(id: string): Promise<Adventure | undefined>;
 }

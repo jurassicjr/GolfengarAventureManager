@@ -59,4 +59,9 @@ export default class AdventuresRepository implements IAdventuresRepository {
     const adventures = await this.ormRepository.find({ where: { rank } });
     return adventures;
   }
+
+  public async findByID(id: string): Promise<Adventure | undefined> {
+    const adventure = await this.ormRepository.findOne(id);
+    return adventure;
+  }
 }
