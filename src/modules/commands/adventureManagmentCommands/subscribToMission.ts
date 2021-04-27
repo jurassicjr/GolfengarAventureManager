@@ -9,9 +9,9 @@ const subscribeToAdventure = {
   description: "this method allow a user to subscrib in an adventure",
   commandString: "!inscrever",
   execute: async (msg: Message, args: string[]): Promise<void> => {
-    if (args.length !== 2) {
+    if (args.length > 2) {
       msg.channel.send(
-        "Por favor insira todos os atributos nas seguinte ordem: **[nome ou ID da aventura] [link do log]**",
+        "Por favor insira todos os atributos nas seguinte ordem: **[nome ou ID da aventura] [link do log]**\nOu caso esteja no canal da aventura desejada insira apenas o link do log",
       );
     }
     const adventureIdentification = args[0];

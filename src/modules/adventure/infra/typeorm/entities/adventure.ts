@@ -50,6 +50,9 @@ export default class Adventure {
   @Column({ length: 2054 })
   report: string;
 
+  @Column({ name: "channel_id" })
+  channelID: string;
+
   @CreateDateColumn({ name: "create_date" })
   createDate: Date;
 
