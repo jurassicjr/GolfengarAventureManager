@@ -1,5 +1,5 @@
 import AppError from "@shared/errors/AppError";
-import { parseISO } from "date-fns";
+import { isBefore, parseISO } from "date-fns";
 import { Role, User } from "discord.js";
 import { inject, injectable } from "tsyringe";
 import Adventure from "../infra/typeorm/entities/adventure";
@@ -42,12 +42,20 @@ export default class CreateNewAdventureService {
       );
     }
 
+    const sessionDate = parseISO(sessionStartDate.replace(/"+/g, "").trim());
+
+    if (isBefore(sessionDate, new Date())) {
+      throw new AppError(
+        "Não é possível cadastrar uma missão com uma data de sessão anterior ao dia de hoje",
+      );
+    }
+
     const adventure = await this.adventuresRepository.create({
       adventureName,
       description,
       dungeonMaster: dungeonMaster.id,
       rank: rank.id,
-      sessionStartDate: parseISO(sessionStartDate.replace(/"+/g, "").trim()),
+      sessionStartDate: sessionDate,
       numberOfVacancies,
     });
 

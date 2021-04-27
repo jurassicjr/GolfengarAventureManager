@@ -8,4 +8,5 @@ export default interface IAdventureRepository {
   findAll(): Promise<Adventure[]>;
   findByRank(rank: string): Promise<Adventure[]>;
   findByID(id: string): Promise<Adventure | undefined>;
+  findByDungeonMaster(dungeonMaster: string): Promise<Adventure[]>;
 }

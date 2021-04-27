@@ -11,36 +11,37 @@ const listAdventures = {
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length > 1) {
       msg.channel.send(
-        "Apenas o rank da missão pode ser inserido como parametro",
+        "Apenas o rank da missão ou a marcação do mestre pode ser inserido como parametro",
       );
     }
     const rank = msg.mentions.roles.first();
+    const dungeonMaster = msg.mentions.users.first();
 
     const getAdventures = container.resolve(GetAdventuresService);
     try {
-      const adventures = await getAdventures.execute(rank);
+      const adventures = await getAdventures.execute({ rank, dungeonMaster });
       const header =
-        "------------------------------------------------------------------------------------------------------------\nNOME                                      | MESTRE                                  | DATA                       | RANK";
+        "--------------------------------------------------------AVENTURAS-----------------------------------------------------------";
       let adventuresMessage = "";
       adventures.forEach(adventure => {
         const adventureCitation = `<@${adventure.dungeonMaster}>`;
 
-        adventuresMessage += `${adventure.name
-          .slice(0, 39)
-          .padEnd(39)}| ${adventureCitation.slice(0, 31).padEnd(31)}| ${format(
+        adventuresMessage += `Nome da aventura: ${
+          adventure.name
+        }\nMestre: ${adventureCitation}\nData: ${format(
           adventure.sessionStartDate,
           "dd/MM/yyyy HH:mm",
-        )
-          .slice(0, 18)
-          .padEnd(18)}| <@&${adventure.rank}>\n`;
+        )}\nRank: <@&${
+          adventure.rank
+        }>\n------------------------------------\n`;
       });
-      msg.channel.send(
-        `LISTA DE MISSÔES\n${header}\n${adventuresMessage}\n------------------------------------------------------------------------------------------------------------`,
+      await msg.channel.send(
+        `${header}\n\n${adventuresMessage}\n------------------------------------------------------------------------------------------------------------`,
       );
       await msg.delete();
     } catch (error) {
       if (error instanceof AppError) {
-        msg.channel.send(error.message);
+        await msg.channel.send(error.message);
       }
     }
   },
