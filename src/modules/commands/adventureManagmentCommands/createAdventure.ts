@@ -16,7 +16,7 @@ const createAdventure = {
       );
       return;
     }
-    const adventureName = args[0];
+    const adventureName = args[0].toLowerCase();
     const dungeonMaster = msg.mentions.users.first();
     const description = args[2];
     const rank = msg.mentions.roles.first();
