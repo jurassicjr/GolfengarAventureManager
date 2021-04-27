@@ -61,7 +61,7 @@ const showAdventure = {
       const footer =
         "-----------------------------------------------------------------------------------------------------------------------------";
       msg.channel.send(
-        `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${report}\n${goldReward}\n${XPReward}\n${footer}`,
+        `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${goldReward}\n${XPReward}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${report}\n${footer}`,
       );
     } catch (error) {
       if (error instanceof AppError) {

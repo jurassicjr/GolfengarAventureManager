@@ -16,9 +16,11 @@ const createAdventure = {
       );
       return;
     }
-    const adventureName = args[0];
+    
+    const adventureName = args[0].toLowerCase();
     const dungeonMaster = msg.author;
     const description = args[1];
+
     const rank = msg.mentions.roles.first();
     const sessionStartDate = args[3];
     const numberOfVacancies = Number(args[4]);

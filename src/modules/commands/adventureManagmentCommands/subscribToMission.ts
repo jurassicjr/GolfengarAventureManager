@@ -16,7 +16,7 @@ const subscribeToAdventure = {
     }
     const adventureIdentification = args[0];
     const characterName = msg.author.id;
-    const logLink = args[1].replace(/"+/, "");
+    const logLink = args[1];
 
     const subscribe = container.resolve(SubscribeToAdventureService);
     try {
