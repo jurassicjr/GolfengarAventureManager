@@ -11,14 +11,15 @@ const listAdventures = {
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length > 1) {
       msg.channel.send(
-        "Apenas o rank da missão pode ser inserido como parametro",
+        "Apenas o rank da missão ou a marcação do mestre pode ser inserido como parametro",
       );
     }
     const rank = msg.mentions.roles.first();
+    const dungeonMaster = msg.mentions.users.first();
 
     const getAdventures = container.resolve(GetAdventuresService);
     try {
-      const adventures = await getAdventures.execute(rank);
+      const adventures = await getAdventures.execute({ rank, dungeonMaster });
       const header =
         "--------------------------------------------------------AVENTURAS-----------------------------------------------------------";
       let adventuresMessage = "";
