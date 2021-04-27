@@ -51,6 +51,7 @@ export default class AdventuresRepository implements IAdventuresRepository {
   public async findAll(): Promise<Adventure[]> {
     const adventures = await this.ormRepository.find({
       where: { sessionEndDate: IsNull() },
+      order: { sessionStartDate: "ASC" },
     });
     return adventures;
   }
@@ -63,5 +64,15 @@ export default class AdventuresRepository implements IAdventuresRepository {
   public async findByID(id: string): Promise<Adventure | undefined> {
     const adventure = await this.ormRepository.findOne(id);
     return adventure;
+  }
+
+  public async findByDungeonMaster(
+    dungeonMaster: string,
+  ): Promise<Adventure[]> {
+    const adventures = await this.ormRepository.find({
+      where: { dungeonMaster },
+    });
+
+    return adventures;
   }
 }
