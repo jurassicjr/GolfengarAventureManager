@@ -11,7 +11,7 @@ const subscribeToAdventure = {
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length !== 2) {
       msg.channel.send(
-        "Por favor insira todos os atributos nas seguinte ordem: ID da aventura, link do log",
+        "Por favor insira todos os atributos nas seguinte ordem: **[nome ou ID da aventura] [link do log]**",
       );
     }
     const adventureIdentification = args[0];
@@ -33,11 +33,6 @@ const subscribeToAdventure = {
         adventure.sessionStartDate,
         "dd/MM/yyyy HH:mm",
       )}`;
-      const adventureEndDate = `Data de termino da sessão: ${
-        adventure.sessionEndDate
-          ? format(adventure.sessionEndDate, "dd/MM/yyyy HH:mm")
-          : ""
-      }`;
       const description = `Descrição: ${adventure.description}`;
       const numberOfVacancies = `Nº de vagas: ${adventure.numberOfVacancies}`;
       const participants = `Candidatos: ${
@@ -49,14 +44,14 @@ const subscribeToAdventure = {
 
       const footer =
         "-----------------------------------------------------------------------------------------------------------------------------";
-      msg.channel.send(
-        `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${footer}`,
+      await msg.channel.send(
+        `${header}\n${adventureName}\n${adventureStartDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${footer}`,
       );
 
-      msg.delete();
+      await msg.delete();
     } catch (error) {
       if (error instanceof AppError) {
-        msg.channel.send(error.message);
+        await msg.channel.send(error.message);
       }
     }
   },

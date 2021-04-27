@@ -9,19 +9,21 @@ const createAdventure = {
   description: "Realize a adventure registration",
   commandString: "!cadastrar_aventura",
   execute: async (msg: Message, args: string[]): Promise<void> => {
-    if (args.length !== 6) {
+    if (args.length !== 5) {
       msg.channel.send(
         "Por favor insira a seguintes variaveis em ordem separado por espaço:" +
           "Nome da aventura, mestre(marcação), descrição, rank(marcação), data da sessão(MM-dd-yyyy HH:mm), número de vagas",
       );
       return;
     }
+    
     const adventureName = args[0].toLowerCase();
-    const dungeonMaster = msg.mentions.users.first();
-    const description = args[2];
+    const dungeonMaster = msg.author;
+    const description = args[1];
+
     const rank = msg.mentions.roles.first();
-    const sessionStartDate = args[4];
-    const numberOfVacancies = Number(args[5]);
+    const sessionStartDate = args[3];
+    const numberOfVacancies = Number(args[4]);
 
     // if (rank && !msg.member?.roles.cache.has("550849479025360900")) {
     //   msg.channel.send("Você não tem cargo de <@&550849479025360900>");
@@ -39,15 +41,22 @@ const createAdventure = {
         numberOfVacancies,
       });
 
+      const header =
+        "---------------------------------------------------AVENTURA CADASTRADA-------------------------------------------------------------";
+      const adventureIDMessage = `Id: ${adventure.id}`;
+      const adventureTitleMessage = `Título: ${adventure.name}`;
+      const adventureDungeonMasterMessage = `Mestre: <@${adventure.dungeonMaster}>`;
+      const adventureDescriptionMessage = `Descrição: ${adventure.description}`;
+      const adventureRankMessage = `Rank: <@&${adventure.rank}>`;
+      const adventureSessionData = `Data: ${format(
+        adventure.sessionStartDate,
+        "dd/MM/yyyy HH:mm",
+      )}`;
+      const footer =
+        "-----------------------------------------------------------------------------------------------------------------------------------";
+
       msg.channel.send(
-        `-----------------------------------------------------------------------\n
-      ID: ${adventure.id}\n
-      Título: ${adventure.name}\n
-      Mestre: <@${adventure.dungeonMaster}>\n
-      Descrição: ${adventure.description}\n
-      Rank: <@&${adventure.rank}>\n
-      Data: ${format(adventure.sessionStartDate, "dd/MM/yyyy HH:mm")}\n
-      ------------------------------------------------------------------------`,
+        `${header}\n${adventureIDMessage}\n${adventureTitleMessage}\n${adventureDungeonMasterMessage}\n${adventureDescriptionMessage}\n${adventureRankMessage}\n${adventureSessionData}\n${footer}`,
       );
     } catch (error) {
       if (error instanceof AppError) {
