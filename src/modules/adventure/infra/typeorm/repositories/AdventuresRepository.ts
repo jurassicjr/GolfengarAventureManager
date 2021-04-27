@@ -77,4 +77,14 @@ export default class AdventuresRepository implements IAdventuresRepository {
 
     return adventures;
   }
+
+  public async findByChannelID(
+    channelID: string,
+  ): Promise<Adventure | undefined> {
+    const adventure = await this.ormRepository.findOne({
+      where: { channelID },
+    });
+
+    return adventure;
+  }
 }

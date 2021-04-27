@@ -14,9 +14,22 @@ const subscribeToAdventure = {
         "Por favor insira todos os atributos nas seguinte ordem: **[nome ou ID da aventura] [link do log]**\nOu caso esteja no canal da aventura desejada insira apenas o link do log",
       );
     }
-    const adventureIdentification = args[0];
-    const characterName = msg.author.id;
-    const logLink = args[1];
+
+    let adventureIdentification: string | undefined;
+    let characterName: string;
+    let logLink: string;
+    let channelID: string;
+
+    if (args.length === 1) {
+      adventureIdentification = undefined;
+      characterName = msg.author.id;
+      [logLink] = args;
+      channelID = msg.channel.id;
+    } else {
+      [adventureIdentification, logLink] = args;
+      characterName = msg.author.id;
+      channelID = msg.channel.id;
+    }
 
     const subscribe = container.resolve(SubscribeToAdventureService);
     try {
@@ -24,6 +37,7 @@ const subscribeToAdventure = {
         adventureIdentification,
         characterName,
         logLink,
+        channelID,
       });
 
       const header =

@@ -5,9 +5,10 @@ import Adventure from "../infra/typeorm/entities/adventure";
 import IAdventureRepository from "../repositories/IAdventuresRepository";
 
 interface IRequest {
-  adventureIdentification: string;
+  adventureIdentification: string | undefined;
   characterName: string;
   logLink: string;
+  channelID: string;
 }
 
 @injectable()
@@ -21,21 +22,26 @@ export default class SubscribeToAdventureService {
     adventureIdentification,
     characterName,
     logLink,
+    channelID,
   }: IRequest): Promise<Adventure> {
     let adventure: Adventure | undefined;
-    if (isUuid(adventureIdentification)) {
-      adventure = await this.adventuresRepository.findByID(
-        adventureIdentification,
-      );
+    if (adventureIdentification) {
+      if (isUuid(adventureIdentification)) {
+        adventure = await this.adventuresRepository.findByID(
+          adventureIdentification,
+        );
+      } else {
+        adventure = await this.adventuresRepository.findByName(
+          adventureIdentification,
+        );
+      }
     } else {
-      adventure = await this.adventuresRepository.findByName(
-        adventureIdentification,
-      );
+      adventure = await this.adventuresRepository.findByChannelID(channelID);
     }
 
     if (!adventure) {
       throw new AppError(
-        "Não foi possível inscrever você na missão solicitada, aparentemente ela não existe, por favor verifique o ID ou nome da aventura.",
+        "Não foi possível inscrever você na missão solicitada, aparentemente ela não existe, por favor verifique o ID ou nome da aventura ou se está em um canal que tenha uma missão cadastrada.",
       );
     }
 
