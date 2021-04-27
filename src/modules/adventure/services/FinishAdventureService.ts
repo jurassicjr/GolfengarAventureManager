@@ -1,5 +1,5 @@
 import AppError from "@shared/errors/AppError";
-import { parseISO } from "date-fns";
+import { isBefore, parseISO } from "date-fns";
 import { Collection, User } from "discord.js";
 import { inject, injectable } from "tsyringe";
 import { isUuid } from "uuidv4";
@@ -55,12 +55,16 @@ export default class FinishAdventureService {
     if (adventure.sessionEndDate)
       throw new AppError("Não é possível finalizar uma aventura já finalizada");
 
+    const endDate = parseISO(sessionEndDate.replace(/"+/g, "").trim());
+    if (isBefore(endDate, adventure.sessionStartDate)) {
+      throw new AppError(
+        "Você não pode finalizar uma sessão com uma data de termino anterior a data de inicio",
+      );
+    }
     adventure.report = report;
     adventure.goldReward = goldReward;
     adventure.participants = participants.map(participant => participant.id);
-    adventure.sessionEndDate = parseISO(
-      sessionEndDate.replace(/"+/g, "").trim(),
-    );
+    adventure.sessionEndDate = endDate;
     adventure.XPReward = Number(xpReward);
 
     await this.adventuresRepository.save(adventure);
