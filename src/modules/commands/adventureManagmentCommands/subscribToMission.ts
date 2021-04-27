@@ -11,12 +11,12 @@ const subscribeToAdventure = {
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length !== 2) {
       msg.channel.send(
-        "Por favor insira todos os atributos nas seguinte ordem: nome ou ID da aventura, link do log",
+        "Por favor insira todos os atributos nas seguinte ordem: ID da aventura, link do log",
       );
     }
     const adventureIdentification = args[0];
     const characterName = msg.author.id;
-    const logLink = args[1].replace(/"+/, "");
+    const logLink = args[1];
 
     const subscribe = container.resolve(SubscribeToAdventureService);
     try {
