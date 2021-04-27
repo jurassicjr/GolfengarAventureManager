@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import createAdventure from "./adventureManagmentCommands/createAdventure";
 import finishAdventure from "./adventureManagmentCommands/finishAdventure";
+import helpCommand from "./adventureManagmentCommands/helpCommand";
 import listAdventures from "./adventureManagmentCommands/listAdventures";
 import showAdventure from "./adventureManagmentCommands/showAdventure";
 import subscribeToAdventure from "./adventureManagmentCommands/subscribToMission";
@@ -19,5 +20,6 @@ commands[listAdventures.commandString] = listAdventures;
 commands[showAdventure.commandString] = showAdventure;
 commands[subscribeToAdventure.commandString] = subscribeToAdventure;
 commands[finishAdventure.commandString] = finishAdventure;
+commands[helpCommand.commandString] = helpCommand;
 
 export default commands;
