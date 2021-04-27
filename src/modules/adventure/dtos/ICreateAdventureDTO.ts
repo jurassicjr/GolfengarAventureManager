@@ -5,4 +5,5 @@ export default interface ICreateAdventureDTO {
   rank: string;
   sessionStartDate: Date;
   numberOfVacancies: number;
+  channelID: string;
 }

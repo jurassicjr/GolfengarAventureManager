@@ -17,6 +17,7 @@ export default class AdventuresRepository implements IAdventuresRepository {
     rank,
     sessionStartDate,
     numberOfVacancies,
+    channelID,
   }: ICreateAdventureDTO): Promise<Adventure> {
     const adventure = this.ormRepository.create({
       name: adventureName,
@@ -25,6 +26,7 @@ export default class AdventuresRepository implements IAdventuresRepository {
       rank,
       sessionStartDate,
       numberOfVacancies,
+      channelID,
     });
 
     await this.save(adventure);

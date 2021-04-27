@@ -12,6 +12,7 @@ interface IRequest {
   rank: Role | undefined;
   sessionStartDate: string;
   numberOfVacancies: number;
+  channelID: string;
 }
 
 @injectable()
@@ -28,6 +29,7 @@ export default class CreateNewAdventureService {
     rank,
     sessionStartDate,
     numberOfVacancies,
+    channelID,
   }: IRequest): Promise<Adventure> {
     if (!rank || !dungeonMaster)
       throw new AppError("Rank ou Mestre não informado");
@@ -57,6 +59,7 @@ export default class CreateNewAdventureService {
       rank: rank.id,
       sessionStartDate: sessionDate,
       numberOfVacancies,
+      channelID,
     });
 
     return adventure;

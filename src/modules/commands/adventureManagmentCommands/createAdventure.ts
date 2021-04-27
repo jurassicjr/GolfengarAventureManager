@@ -16,7 +16,7 @@ const createAdventure = {
       );
       return;
     }
-    
+
     const adventureName = args[0].toLowerCase();
     const dungeonMaster = msg.author;
     const description = args[1];
@@ -24,6 +24,7 @@ const createAdventure = {
     const rank = msg.mentions.roles.first();
     const sessionStartDate = args[3];
     const numberOfVacancies = Number(args[4]);
+    const channelID = msg.channel.id;
 
     // if (rank && !msg.member?.roles.cache.has("550849479025360900")) {
     //   msg.channel.send("Você não tem cargo de <@&550849479025360900>");
@@ -39,6 +40,7 @@ const createAdventure = {
         dungeonMaster,
         rank,
         numberOfVacancies,
+        channelID,
       });
 
       const header =
