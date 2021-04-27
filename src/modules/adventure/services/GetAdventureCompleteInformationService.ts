@@ -20,7 +20,7 @@ export default class GetAdventureCompleteInformationService {
       );
     } else {
       adventure = await this.adventuresRepository.findByName(
-        adventureIdentification,
+        adventureIdentification.toLocaleLowerCase(),
       );
     }
     return adventure;
