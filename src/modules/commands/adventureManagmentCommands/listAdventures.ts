@@ -10,9 +10,10 @@ const listAdventures = {
   commandString: "!listar_aventuras",
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length > 1) {
-      msg.channel.send(
+      await msg.channel.send(
         "Apenas o rank da missão ou a marcação do mestre pode ser inserido como parametro",
       );
+      return;
     }
     const rank = msg.mentions.roles.first();
     const dungeonMaster = msg.mentions.users.first();

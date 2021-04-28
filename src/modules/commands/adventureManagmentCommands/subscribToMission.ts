@@ -9,10 +9,11 @@ const subscribeToAdventure = {
   description: "this method allow a user to subscrib in an adventure",
   commandString: "!inscrever",
   execute: async (msg: Message, args: string[]): Promise<void> => {
-    if (args.length > 2) {
-      msg.channel.send(
+    if (args.length > 2 || args.length < 1) {
+      await msg.channel.send(
         "Por favor insira todos os atributos nas seguinte ordem: **[nome ou ID da aventura] [link do log]**\nOu caso esteja no canal da aventura desejada insira apenas o link do log",
       );
+      return;
     }
 
     let adventureIdentification: string | undefined;
@@ -54,12 +55,15 @@ const subscribeToAdventure = {
           ? adventure.candidates.map(candidate => `<@${candidate}> `)
           : ""
       }`;
+      const logs = `Logs: \n${
+        adventure.playersLog ? adventure.playersLog.map(log => `${log}\n`) : ""
+      }`;
       const rank = `Rank: <@&${adventure.rank}>`;
 
       const footer =
         "-----------------------------------------------------------------------------------------------------------------------------";
       await msg.channel.send(
-        `${header}\n${adventureName}\n${adventureStartDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${footer}`,
+        `${header}\n${adventureName}\n${adventureStartDate}\n${description}\n${numberOfVacancies}\n${participants}\n${logs}\n${rank}\n${footer}`,
       );
 
       await msg.delete();

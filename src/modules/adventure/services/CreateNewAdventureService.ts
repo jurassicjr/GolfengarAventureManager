@@ -44,6 +44,15 @@ export default class CreateNewAdventureService {
       );
     }
 
+    const adventureInTheSameChannel = await this.adventuresRepository.findByChannelID(
+      channelID,
+    );
+
+    if (adventureInTheSameChannel)
+      throw new AppError(
+        "Não é possível registrar uma sessão em um canal que já teve uma missão registrada",
+      );
+
     const sessionDate = parseISO(sessionStartDate.replace(/"+/g, "").trim());
 
     if (isBefore(sessionDate, new Date())) {

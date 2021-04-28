@@ -10,7 +10,7 @@ const createAdventure = {
   commandString: "!cadastrar_aventura",
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length !== 5) {
-      msg.channel.send(
+      await msg.channel.send(
         "Por favor insira a seguintes variaveis em ordem separado por espaço:" +
           "Nome da aventura, mestre(marcação), descrição, rank(marcação), data da sessão(MM-dd-yyyy HH:mm), número de vagas",
       );
@@ -26,10 +26,10 @@ const createAdventure = {
     const numberOfVacancies = Number(args[4]);
     const channelID = msg.channel.id;
 
-    // if (rank && !msg.member?.roles.cache.has("550849479025360900")) {
-    //   msg.channel.send("Você não tem cargo de <@&550849479025360900>");
-    //   return;
-    // }
+    if (rank && !msg.member?.roles.cache.has("550849479025360900")) {
+      msg.channel.send("Você não tem cargo de <@&550849479025360900>");
+      return;
+    }
 
     const createNewAdventure = container.resolve(CreateNewAdventureService);
     try {
@@ -57,12 +57,12 @@ const createAdventure = {
       const footer =
         "-----------------------------------------------------------------------------------------------------------------------------------";
 
-      msg.channel.send(
+      await msg.channel.send(
         `${header}\n${adventureIDMessage}\n${adventureTitleMessage}\n${adventureDungeonMasterMessage}\n${adventureDescriptionMessage}\n${adventureRankMessage}\n${adventureSessionData}\n${footer}`,
       );
     } catch (error) {
       if (error instanceof AppError) {
-        msg.channel.send(error.message);
+        await msg.channel.send(error.message);
       }
     }
   },

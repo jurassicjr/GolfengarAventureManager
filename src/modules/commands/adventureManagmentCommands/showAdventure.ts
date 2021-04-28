@@ -10,9 +10,10 @@ const showAdventure = {
   commandString: "!mostrar_aventura",
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length > 1) {
-      msg.channel.send(
+      await msg.channel.send(
         "Apenas o rank da missão pode ser inserido como parametro",
       );
+      return;
     }
     const adventureIdentification = args[0];
 
@@ -60,12 +61,12 @@ const showAdventure = {
 
       const footer =
         "-----------------------------------------------------------------------------------------------------------------------------";
-      msg.channel.send(
+      await msg.channel.send(
         `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${goldReward}\n${XPReward}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${report}\n${footer}`,
       );
     } catch (error) {
       if (error instanceof AppError) {
-        msg.channel.send(error.message);
+        await msg.channel.send(error.message);
       }
     }
   },

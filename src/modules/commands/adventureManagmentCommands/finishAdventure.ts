@@ -11,9 +11,10 @@ const finishAdventure = {
   commandString: "!finalizar",
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length < 5) {
-      msg.channel.send(
+      await msg.channel.send(
         "Para finalizar a sessão todas as informações devem ser inseridas na seguinte ordem: id, data da finalização, recompensas em gold, número de aventuras, descrição e os participantes",
       );
+      return;
     }
     const adventureIdentification = args[0];
     const requester = msg.author.id;
@@ -63,14 +64,14 @@ const finishAdventure = {
       }`;
       const footer =
         "------------------------------------------------------------------------------------------------------------------";
-      msg.channel.send(
+      await msg.channel.send(
         `${header}\n${adventureName}\n${adventureStartDate}\n${adventureEndDate}\n${description}\n${numberOfVacancies}\n${participants}\n${rank}\n${goldRewardMessage}\n${XPRewardMessage}\n${footer}`,
       );
 
-      msg.delete();
+      await msg.delete();
     } catch (error) {
       if (error instanceof AppError) {
-        msg.channel.send(error.message);
+        await msg.channel.send(error.message);
       }
     }
   },
