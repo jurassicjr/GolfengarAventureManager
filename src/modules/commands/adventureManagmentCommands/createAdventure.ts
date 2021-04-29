@@ -26,10 +26,10 @@ const createAdventure = {
     const numberOfVacancies = Number(args[4]);
     const channelID = msg.channel.id;
 
-    if (rank && !msg.member?.roles.cache.has("550849479025360900")) {
-      msg.channel.send("Você não tem cargo de <@&550849479025360900>");
-      return;
-    }
+    // if (rank && !msg.member?.roles.cache.has("550849479025360900")) {
+    //   msg.channel.send("Você não tem cargo de <@&550849479025360900>");
+    //   return;
+    // }
 
     const createNewAdventure = container.resolve(CreateNewAdventureService);
     try {
