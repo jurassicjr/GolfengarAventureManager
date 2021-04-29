@@ -48,6 +48,7 @@ const createAdventure = {
       const adventureIDMessage = `Id: ${adventure.id}`;
       const adventureTitleMessage = `Título: ${adventure.name}`;
       const adventureDungeonMasterMessage = `Mestre: <@${adventure.dungeonMaster}>`;
+      const adventureNumberOfVacancies = `Nº de vagas: ${adventure.numberOfVacancies}`;
       const adventureDescriptionMessage = `Descrição: ${adventure.description}`;
       const adventureRankMessage = `Rank: <@&${adventure.rank}>`;
       const adventureSessionData = `Data: ${format(
@@ -58,7 +59,7 @@ const createAdventure = {
         "-----------------------------------------------------------------------------------------------------------------------------------";
 
       await msg.channel.send(
-        `${header}\n${adventureIDMessage}\n${adventureTitleMessage}\n${adventureDungeonMasterMessage}\n${adventureDescriptionMessage}\n${adventureRankMessage}\n${adventureSessionData}\n${footer}`,
+        `${header}\n${adventureIDMessage}\n${adventureTitleMessage}\n${adventureDungeonMasterMessage}\n${adventureNumberOfVacancies}\n${adventureDescriptionMessage}\n${adventureRankMessage}\n${adventureSessionData}\n${footer}`,
       );
     } catch (error) {
       if (error instanceof AppError) {
