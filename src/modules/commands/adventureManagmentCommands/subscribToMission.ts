@@ -48,8 +48,6 @@ const subscribeToAdventure = {
         adventure.sessionStartDate,
         "dd/MM/yyyy HH:mm",
       )}`;
-      const description = `Descrição: ${adventure.description}`;
-      const numberOfVacancies = `Nº de vagas: ${adventure.numberOfVacancies}`;
       const participants = `Candidatos: ${
         adventure.candidates
           ? adventure.candidates.map(candidate => `<@${candidate}> `)
@@ -58,12 +56,11 @@ const subscribeToAdventure = {
       const logs = `Logs: \n${
         adventure.playersLog ? adventure.playersLog.map(log => `${log}\n`) : ""
       }`;
-      const rank = `Rank: <@&${adventure.rank}>`;
 
       const footer =
         "-----------------------------------------------------------------------------------------------------------------------------";
       await msg.channel.send(
-        `${header}\n${adventureName}\n${adventureStartDate}\n${description}\n${numberOfVacancies}\n${participants}\n${logs}\n${rank}\n${footer}`,
+        `${header}\n${adventureName}\n${adventureStartDate}\n${participants}\n${logs}\n${footer}`,
       );
 
       await msg.delete();
