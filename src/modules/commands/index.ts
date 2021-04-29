@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+import { createBinary } from "typescript";
 import createAdventure from "./adventureManagmentCommands/createAdventure";
 import finishAdventure from "./adventureManagmentCommands/finishAdventure";
 import helpCommand from "./adventureManagmentCommands/helpCommand";
@@ -16,6 +17,7 @@ const commands: {
 } = {};
 
 commands[createAdventure.commandString] = createAdventure;
+commands["!criar_aventura"] = createAdventure;
 commands[listAdventures.commandString] = listAdventures;
 commands[showAdventure.commandString] = showAdventure;
 commands[subscribeToAdventure.commandString] = subscribeToAdventure;
