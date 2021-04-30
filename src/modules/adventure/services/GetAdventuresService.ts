@@ -20,7 +20,7 @@ export default class GetAdventuresService {
     dungeonMaster,
   }: IRequest): Promise<Adventure[]> {
     if (!rank && !dungeonMaster) {
-      const adventures = await this.adventuresRepository.findAll();
+      const adventures = await this.adventuresRepository.findAllActive();
       return adventures;
     }
     if (rank) {

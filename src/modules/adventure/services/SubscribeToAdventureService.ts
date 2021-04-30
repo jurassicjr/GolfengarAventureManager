@@ -32,7 +32,7 @@ export default class SubscribeToAdventureService {
         );
       } else {
         adventure = await this.adventuresRepository.findByName(
-          adventureIdentification,
+          adventureIdentification.toLowerCase().trim(),
         );
       }
     } else {
@@ -57,6 +57,12 @@ export default class SubscribeToAdventureService {
     ) {
       throw new AppError(
         "Esse link de log já foi cadastrado nessa sessão por favor cadastre outro personagem.",
+      );
+    }
+
+    if (adventure.candidates.find(candidate => candidate === characterName)) {
+      throw new AppError(
+        "Você já cadastrou um LOG, não é possível controlar dois logs simultâneos",
       );
     }
 

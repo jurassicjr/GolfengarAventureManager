@@ -50,7 +50,7 @@ export default class AdventuresRepository implements IAdventuresRepository {
     return adventure;
   }
 
-  public async findAll(): Promise<Adventure[]> {
+  public async findAllActive(): Promise<Adventure[]> {
     const adventures = await this.ormRepository.find({
       where: { sessionEndDate: IsNull() },
       order: { sessionStartDate: "ASC" },
@@ -59,7 +59,10 @@ export default class AdventuresRepository implements IAdventuresRepository {
   }
 
   public async findByRank(rank: string): Promise<Adventure[]> {
-    const adventures = await this.ormRepository.find({ where: { rank } });
+    const adventures = await this.ormRepository.find({
+      where: { rank, sessionEndDate: IsNull() },
+      order: { sessionStartDate: "ASC" },
+    });
     return adventures;
   }
 
@@ -72,7 +75,8 @@ export default class AdventuresRepository implements IAdventuresRepository {
     dungeonMaster: string,
   ): Promise<Adventure[]> {
     const adventures = await this.ormRepository.find({
-      where: { dungeonMaster },
+      where: { dungeonMaster, sessionEndDate: IsNull() },
+      order: { sessionStartDate: "ASC" },
     });
 
     return adventures;
