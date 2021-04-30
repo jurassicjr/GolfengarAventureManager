@@ -2,7 +2,7 @@ import FinishAdventureService from "@modules/adventure/services/FinishAdventureS
 
 import AppError from "@shared/errors/AppError";
 import { format } from "date-fns";
-import { Message } from "discord.js";
+import { Collection, Message, User } from "discord.js";
 import { container } from "tsyringe";
 
 const finishAdventure = {
@@ -10,19 +10,39 @@ const finishAdventure = {
   description: "this method allow a dungeon master to finish a mission",
   commandString: "!finalizar",
   execute: async (msg: Message, args: string[]): Promise<void> => {
-    if (args.length < 5) {
+    if (args.length < 4) {
       await msg.channel.send(
-        "Para finalizar a sessão todas as informações devem ser inseridas na seguinte ordem: id, data da finalização, recompensas em gold, número de aventuras, descrição e os participantes",
+        "Para finalizar a sessão todas as informações devem ser inseridas na seguinte ordem:" +
+          "id, data da finalização, recompensas em gold, número de aventuras, descrição e os participantes\n" +
+          "caso a missão que deseja finalizar esteja no mesmo canal o id da aventura pode ser ignorado",
       );
       return;
     }
-    const adventureIdentification = args[0];
-    const requester = msg.author.id;
-    const sessionEndDate = args[1];
-    const goldReward = args[2];
-    const xpReward = args[3];
-    const report = args[4];
-    const players = msg.mentions.users;
+
+    let adventureIdentification: string | undefined;
+    let requester: string;
+    let sessionEndDate: string;
+    let goldReward: string;
+    let xpReward: string;
+    let report: string;
+    let players: Collection<string, User>;
+
+    const channelID = msg.channel.id;
+    if (args.length === 4) {
+      [
+        adventureIdentification,
+        sessionEndDate,
+        goldReward,
+        xpReward,
+        report,
+      ] = args;
+      requester = msg.author.id;
+      players = msg.mentions.users;
+    } else {
+      [sessionEndDate, goldReward, xpReward, report] = args;
+      requester = msg.author.id;
+      players = msg.mentions.users;
+    }
 
     const finish = container.resolve(FinishAdventureService);
     try {
@@ -34,6 +54,7 @@ const finishAdventure = {
         requester,
         sessionEndDate,
         xpReward,
+        channelID,
       });
 
       const header =

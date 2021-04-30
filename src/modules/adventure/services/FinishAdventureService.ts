@@ -7,13 +7,14 @@ import Adventure from "../infra/typeorm/entities/adventure";
 import IAdventureRepository from "../repositories/IAdventuresRepository";
 
 interface IRequest {
-  adventureIdentification: string;
+  adventureIdentification: string | undefined;
   requester: string;
   sessionEndDate: string;
   goldReward: string;
   xpReward: string;
   report: string;
   participants: Collection<string, User>;
+  channelID: string;
 }
 
 @injectable()
@@ -31,25 +32,30 @@ export default class FinishAdventureService {
     requester,
     sessionEndDate,
     xpReward,
+    channelID,
   }: IRequest): Promise<Adventure> {
     let adventure: Adventure | undefined;
-    if (isUuid(adventureIdentification)) {
-      adventure = await this.adventuresRepository.findByID(
-        adventureIdentification,
-      );
+    if (adventureIdentification) {
+      if (isUuid(adventureIdentification)) {
+        adventure = await this.adventuresRepository.findByID(
+          adventureIdentification,
+        );
+      } else {
+        adventure = await this.adventuresRepository.findByName(
+          adventureIdentification,
+        );
+      }
     } else {
-      adventure = await this.adventuresRepository.findByName(
-        adventureIdentification,
-      );
+      adventure = await this.adventuresRepository.findByChannelID(channelID);
     }
 
     if (!adventure)
       throw new AppError(
-        "Não foi possiível encontrar a aventura informada pela nome ou ID por favor verifique",
+        "Não foi possiível encontrar a aventura informada pela nome ou ID, e a mesma também não se encontra nesse canal por favor verifique",
       );
     if (requester !== adventure.dungeonMaster)
       throw new AppError(
-        "Apenas o mestre que registrou essa sessão pode finalizar ela",
+        "Apenas o mestre que registrou essa sessão pode finaliza-la",
       );
 
     if (adventure.sessionEndDate)
