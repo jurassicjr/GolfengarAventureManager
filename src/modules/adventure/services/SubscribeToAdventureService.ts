@@ -60,11 +60,14 @@ export default class SubscribeToAdventureService {
       );
     }
 
-    if (adventure.candidates.find(candidate => candidate === characterName)) {
-      throw new AppError(
-        "Você já cadastrou um LOG, não é possível controlar dois logs simultâneos",
-      );
-    }
+    // if (
+    //   adventure.candidates &&
+    //   adventure.candidates.find(candidate => candidate === characterName)
+    // ) {
+    //   throw new AppError(
+    //     "Você já cadastrou um LOG, não é possível controlar dois logs para o mesmo jogador",
+    //   );
+    // }
 
     if (adventure.playersLog) adventure.playersLog.push(logLink);
     else adventure.playersLog = [logLink];

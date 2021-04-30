@@ -55,7 +55,9 @@ const subscribeToAdventure = {
       }`;
 
       const logs = `Logs: \n${
-        adventure.playersLog ? adventure.playersLog.toString() : ""
+        adventure.playersLog
+          ? adventure.playersLog.map(log => `<${log}>\n`).join("")
+          : ""
       }`;
 
       const footer =
