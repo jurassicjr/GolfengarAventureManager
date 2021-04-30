@@ -53,8 +53,9 @@ const subscribeToAdventure = {
           ? adventure.candidates.map(candidate => `<@${candidate}> `)
           : ""
       }`;
+
       const logs = `Logs: \n${
-        adventure.playersLog ? adventure.playersLog.map(log => `${log}\n`) : ""
+        adventure.playersLog ? adventure.playersLog.toString() : ""
       }`;
 
       const footer =

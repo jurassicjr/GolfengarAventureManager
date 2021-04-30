@@ -5,14 +5,14 @@ import { Message } from "discord.js";
 import { container } from "tsyringe";
 
 const createAdventure = {
-  name: "registerAdventure",
+  name: "register an adventure",
   description: "Realize a adventure registration",
-  commandString: "!cadastrar_aventura",
+  commandString: "!criar_aventura",
   execute: async (msg: Message, args: string[]): Promise<void> => {
     if (args.length !== 5) {
       await msg.channel.send(
         "Por favor insira a seguintes variaveis em ordem separado por espaço:" +
-          "Nome da aventura, mestre(marcação), descrição, rank(marcação), data da sessão(MM-dd-yyyy HH:mm), número de vagas",
+          "Nome da aventura, descrição, rank(marcação), data da sessão(MM-dd-yyyy HH:mm), número de vagas",
       );
       return;
     }
